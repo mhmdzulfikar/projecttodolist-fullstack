@@ -1,11 +1,17 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-// Pastikan kamu sudah buat database kosong bernama 'todolist_db' di pgAdmin/Postgres kamu
-const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-    host: process.env.DB_HOST,
+// Logic: Kalau ada DATABASE_URL (Online), pakai itu. Kalau gak ada, error.
+const db = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
-    logging: false // Biar terminal ga berisik sama log SQL
+    protocol: 'postgres',
+    logging: false, // Biar terminal gak berisik
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // Wajib buat Neon/Render/Vercel
+        }
+    }
 });
 
 module.exports = db;
