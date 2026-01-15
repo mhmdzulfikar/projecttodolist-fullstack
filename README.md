@@ -4,6 +4,17 @@
 ![Stack](https://img.shields.io/badge/stack-PERN-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
+
+## 🧠 System Design & Logic Flow
+
+I believe that writing code is the last step of engineering. Before typing a single line of code, I mapped out the entire system architecture to ensure scalability and efficiency.
+
+Here is the blueprint of the application's data flow, including Authentication logic, MVC structure, and Database relationships:
+
+![System Architecture](<img width="1541" height="841" alt="Screenshot 2026-01-15 191641" src="https://github.com/user-attachments/assets/745f6ffc-2581-432c-bd8b-af0c25733be2" />
+-)
+*(Click image to view in full size)*
+
 ## 📖 Overview
 
 **Fullstack Productivity Hub** is a comprehensive web application designed to streamline daily tasks and boost efficiency. Built using the **PERN Stack** (PostgreSQL, Express, React, Node.js), this application integrates task management, note-taking, code snippet storage, and productivity analytics into a single, cohesive interface.
