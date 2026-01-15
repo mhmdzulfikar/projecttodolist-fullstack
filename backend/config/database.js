@@ -1,10 +1,11 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
 
-// Logic: Kalau ada DATABASE_URL (Online), pakai itu. Kalau gak ada, error.
-const db = new Sequelize('postgresql://neondb_owner:.....@ep-bold-....aws.neon.tech/neondb?sslmode=require', {
+// KONEKSI DATABASE (Versi Hardcode untuk Debugging)
+// Ini link asli lu yang udah dibersihin. Jangan diubah-ubah dulu.
+const db = new Sequelize('postgresql://neondb_owner:npg_4LyVuErGcqS1@ep-bold-haze-a1vqhfhi-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require', {
     dialect: 'postgres',
     protocol: 'postgres',
+    logging: false,
     dialectOptions: {
         ssl: {
             require: true,
