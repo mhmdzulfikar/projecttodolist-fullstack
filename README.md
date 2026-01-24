@@ -13,8 +13,9 @@ Here is the blueprint of the application's data flow, including Authentication l
 
 <img width="1541" height="841" alt="Screenshot 2026-01-15 191641" src="https://github.com/user-attachments/assets/745f6ffc-2581-432c-bd8b-af0c25733be2" />
 
+
 ---
-<img width="1541" height="841" alt="image" src="https://github.com/user-attachments/assets/2c99637e-d8b8-428a-8ac4-8c55594f57df" />
+<img width="1541" height="841" alt="image" src="https://github.com/user-attachments/assets/c4267518-63ae-42b2-b383-10ea62cb1712" />
 
 *(Click image to view in full size)*
 
