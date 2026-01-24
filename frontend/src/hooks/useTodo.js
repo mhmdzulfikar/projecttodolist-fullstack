@@ -1,33 +1,21 @@
 import { useEffect, useState } from "react";
+// Import API Services
 import { getTodos, addTodo, updateTodo, deleteTodo } from "../services/api";
 
 export default function useTodo() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // 1. LOAD DATA AWAL
   useEffect(() => {
     const initData = async () => {
       setLoading(true);
       try {
-        const data = await getTodos(); // (A)
-
-        const todayDate = new Date().toDateString(); // (B)
-
-        const processedData = await Promise.all(
-          data.map(async (task) => { // (C)
-            if (task.completed) {
-              const lastUpdateDate = new Date(task.updatedAt).toDateString(); // (D)
-
-              if (lastUpdateDate !== todayDate) { // (E)
-                await updateTodo(task.id, false); // (F)
-                return { ...task, completed: false }; // (G)
-              }
-            }
-            return task; // (H)
-          })
-        );
-
-        setTasks(processedData);
+        // Panggil API (Backend udah otomatis reset tanggal, jadi aman)
+        const data = await getTodos(); 
+        setTasks(data);
+      } catch (err) {
+        console.error("Gagal load data", err);
       } finally {
         setLoading(false);
       }
@@ -36,30 +24,66 @@ export default function useTodo() {
     initData();
   }, []);
 
+  // 2. FUNGSI ADD
   const addTask = async (text) => {
-    const newTask = await addTodo(text);
-    setTasks((prev) => [newTask, ...prev]);
+    try {
+        const newTask = await addTodo(text);
+        setTasks((prev) => [newTask, ...prev]);
+    } catch (err) {
+        console.error(err);
+    }
   };
 
+  // 3. FUNGSI TOGGLE
   const toggleTask = async (id, currentStatus) => {
-    await updateTodo(id, !currentStatus);
-    setTasks((prev) =>
-      prev.map((t) =>
-        t.id === id ? { ...t, completed: !t.completed } : t
-      )
-    );
+    try {
+        // Optimistic UI: Update layar duluan biar cepet
+        setTasks((prev) => prev.map((t) => 
+            t.id === id ? { ...t, completed: !t.completed } : t
+        ));
+        
+        // Baru kirim ke Backend
+        await updateTodo(id, !currentStatus);
+    } catch (err) {
+        console.error(err);
+        // Kalau error, balikin lagi statusnya (Rollback - Opsional)
+    }
   };
 
+  // 4. FUNGSI EDIT (Code Baru)
+  const editTask = async (id, newText) => {
+    try {
+        // A. Optimistic Update (Layar berubah duluan)
+        setTasks((prev) => prev.map((t) => 
+            // Cari ID-nya, ganti properti 'task' dengan teks baru
+            t.id === id ? { ...t, task: newText } : t
+        ));
+
+        // B. Kirim ke Backend
+        // Kita pake fungsi updateTodo yang sama, tapi isinya beda
+        await updateTodo(id, { task: newText }); 
+    } catch (err) {
+        console.error("Gagal edit:", err);
+    }
+  };
+
+  // 4. FUNGSI REMOVE
   const removeTask = async (id) => {
-    await deleteTodo(id);
-    setTasks((prev) => prev.filter((t) => t.id !== id));
+    try {
+        await deleteTodo(id);
+        setTasks((prev) => prev.filter((t) => t.id !== id));
+    } catch (err) {
+        console.error(err);
+    }
   };
 
+  // Kembalikan "Alat-alat" ini ke TodoList.jsx
   return {
     tasks,
     loading,
     addTask,
     toggleTask,
     removeTask,
+    editTask,
   };
 }

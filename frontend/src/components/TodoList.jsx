@@ -4,7 +4,7 @@ import TodoItem from "./TodoItem";
 import useTodo from "../hooks/useTodo";
 
 const TodoList = () => {
-  const { tasks, addTask, toggleTask, removeTask, loading } = useTodo();
+  const { tasks, addTask, toggleTask, editTask, removeTask, loading } = useTodo();
   const [inputText, setInputText] = useState("");
   const [filter, setFilter] = useState("all");
 
@@ -109,6 +109,7 @@ const TodoList = () => {
                 task={task}
                 toggleComplete={() => toggleTask(task.id, task.completed)}
                 deleteTask={() => removeTask(task.id)}
+                editTask={editTask}
             />
             ))
         ) : (
