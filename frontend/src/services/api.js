@@ -27,28 +27,6 @@ api.interceptors.request.use(
   }
 );
 
-// --- TODO API ---
-
-export const getTodos = async () => {
-  const response = await api.get('/todos'); 
-  return response.data;
-};
-
-export const addTodo = async (task) => {
-  const response = await api.post('/todos', { task }); 
-  return response.data;
-};
-
-export const updateTodo = async (id, completed) => {
-  const response = await api.put(`/todos/${id}`, { completed });
-  return response.data;
-};
-
-export const deleteTodo = async (id) => {
-  const response = await api.delete(`/todos/${id}`);
-  return response.data;
-};
-
 // --- AUTH API ---
 
 export const registerUser = async (userData) => {
