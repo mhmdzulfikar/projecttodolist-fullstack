@@ -27,17 +27,6 @@ api.interceptors.request.use(
   }
 );
 
-// --- AUTH API ---
-
-export const registerUser = async (userData) => {
-  const response = await api.post('/auth/register', userData);
-  return response.data;
-};
-
-export const loginUser = async (userData) => {
-  const response = await api.post('/auth/login', userData);
-  return response.data;
-};
 
 // --- NOTIFICATION API ---
 
@@ -78,37 +67,8 @@ export const updateNote = async (data) => {
   return response.data;
 };
 
-// AUTH
-export const getMe = async () => {
-  const response = await api.get('/auth/me');
-  return response.data;
-};
-
-// 🔥🔥 INI YANG TADI KURANG (WAJIB ADA) 🔥🔥
 export const deleteCard = async (id) => {
   const response = await api.delete(`/cards/${id}`);
-  return response.data;
-};
-
-// --- SNIPPET API ---
-export const getSnippets = async () => {
-  const response = await api.get('/snippets');
-  return response.data;
-};
-
-export const createSnippet = async (data) => {
-  const response = await api.post('/snippets', data);
-  return response.data;
-};
-
-export const deleteSnippet = async (id) => {
-  const response = await api.delete(`/snippets/${id}`);
-  return response.data;
-};
-
-export const updateSnippet = async (id, data) => {
-  // Pake method PUT sesuai backend lo
-  const response = await api.put(`/snippets/${id}`, data);
   return response.data;
 };
 

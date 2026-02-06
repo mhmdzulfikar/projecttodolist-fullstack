@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { format, parseISO } from "date-fns";
-import { getTodos } from "../services/api";
+import { todoService } from "../services/todoServices";
 
 export const useProductivityChart = () => {
   const [chartData, setChartData] = useState([]);
@@ -10,8 +10,7 @@ export const useProductivityChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const todos = await getTodos();
-
+        const todos = await todoService.getAll();
         if (!todos || todos.length === 0) {
           setIsEmpty(true);
           return;

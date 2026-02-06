@@ -1,6 +1,7 @@
 import api from './api';
 
-export const snippetService = () => ({
+export const snippetService  = {
+
   getAll: async () => {
     const response = await api.get('/snippets');
     return response.data;
@@ -20,4 +21,4 @@ export const snippetService = () => ({
     const response = await api.put(`/snippets/${id}`, data);
     return response.data;
   }
-});
+};

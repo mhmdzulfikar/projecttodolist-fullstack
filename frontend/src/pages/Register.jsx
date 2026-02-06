@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
-// Import API
-import { registerUser } from "../services/api";
+import { authService } from "../services/authService";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -17,7 +16,7 @@ const Register = () => {
 
     try {
       // Panggil API Register
-      await registerUser({ name, email, password });
+      await authService.registerUser({ name, email, password });
       
       // Kalau sukses, lempar ke halaman login
       alert("Registration Successful! Please Login.");

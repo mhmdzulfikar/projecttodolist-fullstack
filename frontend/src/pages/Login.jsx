@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { loginUser } from "../services/api";
+import { authService } from "../services/authService";
 import axios from "axios";
 
 const Login = () => {
@@ -15,16 +15,13 @@ const Login = () => {
     setErrorMsg("");
 
     try {
-      const data = await loginUser({ email, password });
-      
-      // 🔥 SIMPAN DATA PENTING KE SAKU BROWSER
+      const data = await authService.loginUser({ email, password });
       localStorage.setItem('token', data.accessToken);
       
       // Simpan Nama (buat Navbar)
       if (data.name) localStorage.setItem('name', data.name);
       else localStorage.setItem('name', "User");
 
-      // 🔥🔥 SIMPAN ROLE (BUAT FITUR DRAG & DROP ADMIN) 🔥🔥
       // Kalau baris ini ga ada, browser ga bakal tau kamu admin!
       if (data.role) {
           localStorage.setItem('role', data.role);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect} from "react";
 import {
   DndContext,
   closestCorners,
@@ -22,7 +22,7 @@ import { FaPlus, FaTimes, FaTrash } from "react-icons/fa"; // 🔥 Tambah FaTras
 import { getCards, updateCardStatus, createCard, deleteCard } from "../services/api";
 
 // --- KOMPONEN KARTU (ITEM) ---
-const SortableItem = ({ id, title, desc, color, disabled, onDelete }) => { // 🔥 Tambah props onDelete
+const SortableItem = ({ id, title, desc, color, disabled, onDelete }) => { 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id, disabled });
   
   const style = {
@@ -44,7 +44,7 @@ const SortableItem = ({ id, title, desc, color, disabled, onDelete }) => { // �
       
       {disabled && <span className="text-[10px] text-gray-300 mt-2 block italic">🔒 Admin only</span>}
 
-      {/* 🔥 TOMBOL HAPUS (Hanya muncul saat hover & kalau Admin) */}
+      {/* TOMBOL HAPUS (Hanya muncul saat hover & kalau Admin) */}
       {!disabled && (
         <button 
             // onPointerDown stopPropagation biar gak dikira mau nge-drag pas diklik
@@ -221,7 +221,7 @@ const Home = () => {
                     <span className="bg-gray-200 text-gray-600 text-xs px-2 py-0.5 rounded-full">{items.progress.length}</span>
                 </h2>
                 <SortableContext id="progress" items={items.progress.map(i => i.id)} strategy={rectSortingStrategy}>
-                    <div className="space-y-3 min-h-[100px] bg-indigo-50/30 p-4 rounded-xl border border-dashed border-indigo-200">
+                    <div className="space-y-3 min-h-100px bg-indigo-50/30 p-4 rounded-xl border border-dashed border-indigo-200">
                         {items.progress.map((item) => (
                             // 🔥 PASS FUNGSI DELETE KE ITEM
                             <SortableItem 
@@ -242,9 +242,8 @@ const Home = () => {
                     <span className="bg-gray-200 text-gray-600 text-xs px-2 py-0.5 rounded-full">{items.future.length}</span>
                 </h2>
                 <SortableContext id="future" items={items.future.map(i => i.id)} strategy={rectSortingStrategy}>
-                    <div className="space-y-3 min-h-[100px] bg-purple-50/30 p-4 rounded-xl border border-dashed border-purple-200">
+                    <div className="space-y-3 min-h-100px bg-purple-50/30 p-4 rounded-xl border border-dashed border-purple-200">
                         {items.future.map((item) => (
-                            // 🔥 PASS FUNGSI DELETE KE ITEM
                             <SortableItem 
                                 key={item.id} 
                                 {...item} 

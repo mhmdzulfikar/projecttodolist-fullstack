@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-// Import API Services
-import { getTodos, addTodo, updateTodo, deleteTodo } from "../services/api";
+import { todoService } from "../services/todoServices";
 
 export default function useTodo() {
   const [tasks, setTasks] = useState([]);
@@ -11,8 +10,7 @@ export default function useTodo() {
     const initData = async () => {
       setLoading(true);
       try {
-        // Panggil API (Backend udah otomatis reset tanggal, jadi aman)
-        const data = await getTodos(); 
+        const data = await todoService.getAll(); 
         setTasks(data);
       } catch (err) {
         console.error("Gagal load data", err);
@@ -27,7 +25,7 @@ export default function useTodo() {
   // 2. FUNGSI ADD
   const addTask = async (text) => {
     try {
-        const newTask = await addTodo(text);
+        const newTask = await todoService.create({ task: text });
         setTasks((prev) => [newTask, ...prev]);
     } catch (err) {
         console.error(err);
@@ -43,7 +41,7 @@ export default function useTodo() {
         ));
         
         // Baru kirim ke Backend
-        await updateTodo(id, !currentStatus);
+        await todoService.updateStatus(id, { completed: !currentStatus });
     } catch (err) {
         console.error(err);
         // Kalau error, balikin lagi statusnya (Rollback - Opsional)
@@ -61,7 +59,7 @@ export default function useTodo() {
 
         // B. Kirim ke Backend
         // Kita pake fungsi updateTodo yang sama, tapi isinya beda
-        await updateTodo(id, { task: newText }); 
+        await todoService.updateStatus(id, { task: newText }); 
     } catch (err) {
         console.error("Gagal edit:", err);
     }
@@ -70,7 +68,7 @@ export default function useTodo() {
   // 4. FUNGSI REMOVE
   const removeTask = async (id) => {
     try {
-        await deleteTodo(id);
+        await todoService.delete(id);
         setTasks((prev) => prev.filter((t) => t.id !== id));
     } catch (err) {
         console.error(err);

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-// Import Icon (Saya lengkapi ikon untuk Stats)
 import { FaBullhorn, FaClipboardList, FaClock, FaCheckCircle, FaChartLine } from "react-icons/fa"; 
-// Import API
-import { getTodos, createBroadcast } from "../services/api"; 
-// Import Grafik
+import { todoService } from "../services/todoServices"; 
 import ProductivityChart from "../components/ProductivityChart";
 
 const Dashboard = () => {
-  // --- STATE DASHBOARD (LOGIC TETAP) ---
   const [stats, setStats] = useState({
     total: 0,
     pending: 0,
@@ -23,8 +19,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const todos = await getTodos(); 
-        
+        const todos = await todoService.getAll(); 
         const total = todos.length;
         const completed = todos.filter(t => t.completed).length;
         const pending = total - completed;
@@ -46,7 +41,7 @@ const Dashboard = () => {
     if (!broadcastMsg.message) return alert("Isi pesan dulu dong!");
 
     try {
-        await createBroadcast({
+        await todoService.create({
             title: broadcastMsg.title || "Info Admin", // Kirim title juga biar rapi
             message: broadcastMsg.message 
         });
@@ -128,7 +123,7 @@ const Dashboard = () => {
          </div>
          
          {/* Container Grafik */}
-         <div className="w-full h-[350px] md:h-[400px]">
+         <div className="w-full h-350px md:h-400px">
             <ProductivityChart />
          </div>
       </div>

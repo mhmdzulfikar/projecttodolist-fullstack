@@ -10,11 +10,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 // Coba import sebagai object dulu
 const snippetController = require('../controllers/snippetController'); // Pastikan nama file cocok (huruf kecil/besar)
 
-// === 🕵️‍♂️ AREA DEBUGGING (DETEKTIF) ===
-console.log("=== 🔍 CEK ISI IMPORT ===");
-console.log("👉 Isi Auth Middleware:", authMiddleware);
-console.log("👉 Isi Snippet Controller:", snippetController);
-
 // Ambil fungsi yang kita butuhkan
 const verifyToken = authMiddleware.verifyToken; // Atau authMiddleware.authenticateToken?
 const { getSnippets, createSnippet, updateSnippet, deleteSnippet } = snippetController;

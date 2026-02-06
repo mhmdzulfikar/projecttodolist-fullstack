@@ -10,14 +10,14 @@ const ProductivityChart = () => {
 
   if (loading) {
     return (
-      <div className="bg-white p-6 rounded-2xl shadow-sm h-[400px] flex items-center justify-center animate-pulse">
+      <div className="bg-white p-6 rounded-2xl shadow-sm h-400px flex items-center justify-center animate-pulse">
         <div className="text-gray-400">Loading chart data...</div>
       </div>
     );
   }
 
   return (
-    // Hapus height fixed di container luar biar responsif mengikuti parent
+
     <div className="h-full w-full"> 
       
       {isEmpty ? (
@@ -26,7 +26,6 @@ const ProductivityChart = () => {
            <p>No activity recorded yet.</p>
         </div>
       ) : (
-        // Gunakan width/height 100% biar ngisi kotak pembungkusnya
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 
             data={chartData}
@@ -44,7 +43,7 @@ const ProductivityChart = () => {
             />
             
             <YAxis 
-                allowDecimals={false} // 🔥 WAJIB: Biar gak ada angka 0.5
+                allowDecimals={false}
                 axisLine={false} 
                 tickLine={false} 
                 tick={{ fill: '#6b7280', fontSize: 12 }} 
@@ -57,7 +56,6 @@ const ProductivityChart = () => {
             
             <Legend wrapperStyle={{ paddingTop: '20px' }} />
 
-            {/* 🔥 barSize={50} -> INI YANG BIKIN BATANGNYA LANGSING */}
             <Bar 
                 dataKey="completed" 
                 name="Completed" 

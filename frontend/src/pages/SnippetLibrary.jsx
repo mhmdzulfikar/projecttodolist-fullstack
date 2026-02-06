@@ -9,8 +9,8 @@ import { FaPlus, FaTrash, FaCopy, FaCode, FaSearch, FaPencilAlt } from "react-ic
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'; 
 
-// 🔥 PERBAIKAN 1: Hapus import ganda. Cukup satu baris ini aja & pastikan ada 'updateSnippet'
-import { getSnippets, createSnippet, deleteSnippet, updateSnippet } from "../services/api";
+//  PERBAIKAN 1: Hapus import ganda. Cukup satu baris ini aja & pastikan ada 'updateSnippet'
+import { snippetService } from "../services/snippetService";
 
 const SnippetLibrary = () => {
   const [snippets, setSnippets] = useState([]); 
@@ -36,7 +36,7 @@ const SnippetLibrary = () => {
   useEffect(() => {
     const fetchData = async () => { 
       try { 
-        const data = await getSnippets();
+        const data = await snippetService.getAll();
         setSnippets(data); 
       } catch (error) { 
         console.error("Gagal ambil data", error);
@@ -54,14 +54,14 @@ const SnippetLibrary = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); 
     try {
-        // 🔥 PERBAIKAN 2: Logika Cerdas (Update vs Create)
+        //  PERBAIKAN 2: Logika Cerdas (Update vs Create)
         if (formData.id) {
             // Kalau ada ID -> UPDATE
-            await updateSnippet(formData.id, formData);
+            await snippetService.update(formData.id, formData);
             alert("Berhasil di-update! 🚀");
         } else {
             // Kalau gak ada ID -> CREATE BARU
-            await createSnippet(formData);
+            await snippetService.create(formData);
             alert("Berhasil disimpan! 🎉");
         }
 
@@ -78,7 +78,7 @@ const SnippetLibrary = () => {
   // 3. HANDLE DELETE
   const handleDelete = async (id) => {
     if(confirm("Hapus kode ini?")) {
-        await deleteSnippet(id);
+        await snippetService.delete(id);
         setRefreshKey(oldKey => oldKey + 1);
     }
   };
@@ -117,7 +117,7 @@ const SnippetLibrary = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
             <div>
                 <h1 className=" text-4xl font-extrabold tracking-tight text-gray-900 dark:text-blue flex items-center gap-3">
-                    <span className="bg-gradient-to-r bg-clip-text text-transparent from-indigo-500 to-purple-600">
+                    <span className="bg-blue-to-r bg-clip-text text-transparent from-indigo-500 to-purple-600">
                         Code Library
                     </span>
                 </h1>
@@ -142,7 +142,7 @@ const SnippetLibrary = () => {
                 {/* Tombol NEW SNIPPET (Utama) */}
                 <button 
                     onClick={() => {
-                        // 🔥 PERBAIKAN 3: Reset form dulu sebelum buka modal (biar ID sisa edit hilang)
+                        //  PERBAIKAN 3: Reset form dulu sebelum buka modal (biar ID sisa edit hilang)
                         setFormData({ title: "", language: "javascript", code: "" });
                         setIsModalOpen(true);
                     }}
@@ -165,7 +165,7 @@ const SnippetLibrary = () => {
                             <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getLangColor(snip.language)} uppercase tracking-wider`}>
                                 {snip.language}
                             </span>
-                            <h3 className="font-semibold text-gray-800 dark:text-gray-100 truncate max-w-[200px]" title={snip.title}>
+                            <h3 className="font-semibold text-gray-800 dark:text-gray-100 truncate max-w-200px" title={snip.title}>
                                 {snip.title}
                             </h3>
                         </div>

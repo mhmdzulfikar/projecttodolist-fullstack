@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TodoList from "../components/TodoList";
+import TodoList from "../components/todo/TodoList";
 import NotePad from "../components/NotePad"; // Pastikan file ini ada, kalau error comment dulu
 import { FaTasks, FaStickyNote } from "react-icons/fa";
 
@@ -43,7 +43,7 @@ const Todo = () => {
             {activeTab === "tasks" ? (
                 <TodoList />
             ) : (
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-1 min-h-[600px]">
+                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-1 min-h-600px">
                     {/* NotePad Component */}
                     <NotePad />
                 </div>

@@ -3,11 +3,9 @@ import { FaSearch, FaBell, FaSignOutAlt, FaStar, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import CardNavPage from "../pages/CardNavPage"; 
 import NotificationPopup from "./NotificationPopup";
-// Import API getMe
-import { getMe } from "../services/api"; 
+import { authService } from "../services/authService"; 
 
 const Navbar = () => {
-  // Default data user
   const [userData, setUserData] = useState({ 
     name: localStorage.getItem("name") || "User", 
     xp: 0, 
@@ -18,16 +16,13 @@ const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
 
-  // 🔥 SOLUSI ANTI ERROR: Logic Fetch ada DI DALAM useEffect
   useEffect(() => {
-    
     const fetchUserData = async () => {
       try {
-        // Cek token dulu
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        const data = await getMe();
+        const data = await authService.getMe();
         
         // Update State
         setUserData({
@@ -47,14 +42,11 @@ const Navbar = () => {
 
     // 1. Jalanin saat pertama kali
     fetchUserData();
-
-    // 2. Jalanin setiap 5 detik (Biar XP nambah real-time)
-    const interval = setInterval(fetchUserData, 5000);
-    
-    // 3. Bersihkan interval saat pindah halaman
-    return () => clearInterval(interval);
-    
-  }, []); // <--- Dependency Kosong (Aman dari Loop)
+    // // 2. Jalanin setiap 5 detik (Biar XP nambah real-time)
+    // const interval = setInterval(fetchUserData, 5000);
+    // // 3. Bersihkan interval saat pindah halaman
+    // return () => clearInterval(interval);
+  }, []); 
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure?");
@@ -72,7 +64,7 @@ const Navbar = () => {
       
       {/* KIRI */}
       <div className="flex items-center gap-4">
-        <div className="relative w-[60px] h-[60px] flex items-center justify-center min-[766px]:hidden">
+        <div className="relative w-60px h-60px flex items-center justify-center min-[766px]:hidden">
              <CardNavPage />
         </div>
         <div className="text-2xl font-bold  from-indigo-600 to-purple-600 bg-clip-text text-transparent cursor-pointer hidden md:block">

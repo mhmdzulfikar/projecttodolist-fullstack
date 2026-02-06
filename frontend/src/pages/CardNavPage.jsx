@@ -2,7 +2,6 @@ import React from "react";
 import CardNav from "../components/CardNav";
 
 const CardNavPage = () => {
-  // ITEM DENGAN WARNA WARNI 
   const items = [
     {
     title: "Dashboard",

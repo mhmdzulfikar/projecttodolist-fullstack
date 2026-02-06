@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaPlus, FaCalendarAlt, FaChartPie } from "react-icons/fa";
 import TodoItem from "./TodoItem";
-import useTodo from "../hooks/useTodo";
+import useTodo from "../../hooks/useTodo";
 
 const TodoList = () => {
   const { tasks, addTask, toggleTask, editTask, removeTask, loading } = useTodo();
@@ -99,7 +99,7 @@ const TodoList = () => {
       </div>
 
       {/* LIST ITEMS */}
-      <div className="space-y-1 min-h-[200px]">
+      <div className="space-y-1 min-h-200px">
         {loading ? (
             <p className="text-center text-gray-400 py-10 animate-pulse">Loading tasks...</p>
         ) : filteredTasks.length > 0 ? (
