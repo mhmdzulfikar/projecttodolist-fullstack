@@ -11,8 +11,8 @@ export const todoService = {
     return response.data;
   },
 
-  updateStatus: async (id, status) => {
-    const response = await api.put(`/todos/${id}`, { status });
+  updateStatus: async (id, data) => {
+    const response = await api.put(`/todos/${id}`, { data });
     return response.data;
   },
 

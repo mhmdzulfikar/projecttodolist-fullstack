@@ -15,8 +15,7 @@ export const useProductivityChart = () => {
           setIsEmpty(true);
           return;
         }
-
-        // 🔥 SATU SUMBER TANGGAL: createdAt
+        
         const grouped = todos.reduce((acc, todo) => {
           const dateKey = format(
             parseISO(todo.createdAt),

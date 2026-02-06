@@ -1,23 +1,18 @@
 const Todo = require('../models/Todo');
 const User = require('../models/User'); 
-const { Op } = require("sequelize"); // 🔥 1. ILMU BARU: Import Operator Sequelize
+const { Op } = require("sequelize"); 
 
 // ==========================================
-// 1. AMBIL DATA + AUTO RESET HARIAN 🧹
+// 1. AMBIL DATA + AUTO RESET HARIAN
 // ==========================================
 const getTodos = async (req, res) => {
     try {
         const userId = req.user.userId;
 
-        // --- 🟢 LOGIKA BARU: SI TUKANG BERSIH-BERSIH ---
         
         // A. Tentukan Batas Waktu "Hari Ini" (Jam 00:00 tadi pagi)
         const todayStart = new Date();
         todayStart.setHours(0, 0, 0, 0); 
-
-        // B. Lakukan PEMBERSIHAN MASSAL (Bulk Update)
-        // "Cari tugas user ini yang Completed (true), TAPI update terakhirnya SEBELUM hari ini."
-        // Terus ubah paksa jadi FALSE (Reset).
         await Todo.update(
             { completed: false }, // Set jadi belum selesai
             {
@@ -25,15 +20,11 @@ const getTodos = async (req, res) => {
                     userId: userId,
                     completed: true,
                     updatedAt: {
-                        [Op.lt]: todayStart // 🔥 [Op.lt] artinya "Less Than" (Kurang Dari / Sebelum)
+                        [Op.lt]: todayStart //  [Op.lt] artinya "Less Than" (Kurang Dari / Sebelum)
                     }
                 }
             }
         );
-        // Kehebatan Code ini: Cuma 1x tembak database, ribuan data langsung kereset. 
-        // Jauh lebih cepet daripada looping di frontend!
-
-        // --- 🔴 LOGIKA LAMA (AMBIL DATA) ---
         // Sekarang ambil datanya (yang udah bersih tadi)
         const todos = await Todo.findAll({ 
             where: { userId: userId }, 
@@ -72,12 +63,12 @@ const createTodo = async (req, res) => {
 }
 
 // ==========================================
-// 3. UPDATE TUGAS + SISTEM LEVEL UP 🎮 (Gak Berubah)
+// 3. UPDATE TUGAS + SISTEM LEVEL UP  (Gak Berubah)
 // ==========================================
 const updateTodo = async (req, res) => {
     try {
         const { id } = req.params;
-        const { completed } = req.body; 
+        const { task, completed } = req.body; 
         
         const todo = await Todo.findOne({ 
             where: { id, userId: req.user.userId } 
@@ -87,11 +78,14 @@ const updateTodo = async (req, res) => {
             return res.status(404).json({ msg: "Tugas tidak ditemukan atau bukan milik Anda" });
         }
 
+        if (task !== undefined && task.trim() !== "") {
+            todo.task = task;
+        }
+
         let xpGained = 0;
         let newLevel = null;
 
-        // Logika XP tetep jalan normal disini
-        if (completed === true && todo.completed === false) {
+        if (completed !== undefined && completed === true && todo.completed === false) {
             const user = await User.findByPk(req.user.userId);
             if (user) {
                 user.xp = (user.xp || 0) + 10; 

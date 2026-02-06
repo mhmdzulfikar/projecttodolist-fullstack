@@ -8,8 +8,7 @@ const api = axios.create({
   }
 });
 
-// 🔥 2. PASANG INTERCEPTOR (SATPAM OTOMATIS)
-// Kode ini akan jalan DULUAN sebelum request dikirim ke backend
+
 api.interceptors.request.use(
   (config) => {
     // Ambil token dari saku browser
@@ -26,7 +25,6 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
 
 // --- NOTIFICATION API ---
 

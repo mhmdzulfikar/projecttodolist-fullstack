@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const db = require('../config/database');
 
 const Todo = db.define('Todo', {
-    // ID biasanya otomatis dibuatkan
     task: {
         type: DataTypes.STRING,
         allowNull: false
@@ -12,7 +11,7 @@ const Todo = db.define('Todo', {
         defaultValue: false
     }
 }, {
-    freezeTableName: true // Biar nama tabelnya tetep 'Todo', bukan 'Todos'
+    freezeTableName: true 
 });
 
 module.exports = Todo;
