@@ -12,9 +12,9 @@ export const todoService = {
   },
 
   updateStatus: async (id, data) => {
-    const response = await api.put(`/todos/${id}`, { data });
-    return response.data;
-  },
+  const response = await api.put(`/todos/${id}`, data);
+  return response.data;
+},
 
   delete: async (id) => {
     const response = await api.delete(`/todos/${id}`);

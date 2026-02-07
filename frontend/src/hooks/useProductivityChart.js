@@ -8,15 +8,19 @@ export const useProductivityChart = () => {
   const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+      const fetchData = async () => {
       try {
         const todos = await todoService.getAll();
+
         if (!todos || todos.length === 0) {
           setIsEmpty(true);
+          setLoading(false);
           return;
         }
-        
+
         const grouped = todos.reduce((acc, todo) => {
+
+          if (!todo.createdAt) return acc;
           const dateKey = format(
             parseISO(todo.createdAt),
             "dd MMM"
@@ -30,6 +34,7 @@ export const useProductivityChart = () => {
             };
           }
 
+         
           if (todo.completed) {
             acc[dateKey].completed += 1;
           } else {
@@ -39,9 +44,10 @@ export const useProductivityChart = () => {
           return acc;
         }, {});
 
-        const result = Object.values(grouped);
-        setChartData(result);
+
+         setChartData(Object.values(grouped));
         setIsEmpty(false);
+
       } catch (error) {
         console.error("Chart error:", error);
         setIsEmpty(true);

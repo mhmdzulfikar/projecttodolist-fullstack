@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TodoList from "../components/todo/TodoList";
-import NotePad from "../components/NotePad"; // Pastikan file ini ada, kalau error comment dulu
+import NotePad from "../components/NotePad";
 import { FaTasks, FaStickyNote } from "react-icons/fa";
 
 const Todo = () => {

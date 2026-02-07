@@ -10,15 +10,14 @@ const ProductivityChart = () => {
 
   if (loading) {
     return (
-      <div className="bg-white p-6 rounded-2xl shadow-sm h-400px flex items-center justify-center animate-pulse">
+      <div className="bg-white p-6 rounded-2xl shadow-sm h-[300px] flex items-center justify-center animate-pulse">
         <div className="text-gray-400">Loading chart data...</div>
       </div>
     );
   }
 
   return (
-
-    <div className="h-full w-full"> 
+    <div className="w-full h-[300px] min-h-[300px]"> 
       
       {isEmpty ? (
         <div className="h-full flex flex-col items-center justify-center text-gray-400">
@@ -29,9 +28,8 @@ const ProductivityChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 
             data={chartData}
-            margin={{ top: 20, right: 30, left: -20, bottom: 5 }} // Atur margin biar rapi
+            margin={{ top: 20, right: 30, left: -20, bottom: 5 }} 
           >
-            {/* Grid tipis horizontal saja biar bersih */}
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
             
             <XAxis 
@@ -50,28 +48,30 @@ const ProductivityChart = () => {
             />
             
             <Tooltip 
-                cursor={{ fill: 'transparent' }} // Hilangkan shadow background pas hover
+                cursor={{ fill: 'transparent' }} 
                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             />
             
             <Legend wrapperStyle={{ paddingTop: '20px' }} />
 
+            {/* BAR COMPLETED (HIJAU) */}
             <Bar 
                 dataKey="completed" 
                 name="Completed" 
                 stackId="a" 
-                fill="#10b981" // Hijau
-                barSize={40}  // Ukuran fix pixel
-                radius={[0, 0, 4, 4]} // Rounded bawah
+                fill="#10b981" 
+                barSize={40} 
+                radius={[0, 0, 4, 4]} 
             />
             
+            {/* BAR PENDING (KUNING) */}
             <Bar 
                 dataKey="pending" 
                 name="Pending" 
                 stackId="a" 
-                fill="#fbbf24" // Kuning
-                barSize={40} // Ukuran fix pixel
-                radius={[4, 4, 0, 0]} // Rounded atas
+                fill="#fbbf24" 
+                barSize={40} 
+                radius={[4, 4, 0, 0]} 
             />
           </BarChart>
         </ResponsiveContainer>

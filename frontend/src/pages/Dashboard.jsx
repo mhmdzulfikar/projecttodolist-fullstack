@@ -27,7 +27,7 @@ const Dashboard = () => {
         setStats({ total, pending, completed });
       } catch (error) {
         console.error("Gagal load dashboard:", error);
-      } finally {
+      } finally { 
         setLoading(false);
       }
     };
@@ -128,7 +128,7 @@ const Dashboard = () => {
          </div>
       </div>
 
-      {/* --- 🔥 ADMIN BROADCAST PANEL (UI MODERN) --- */}
+      {/* --- ADMIN BROADCAST PANEL (UI MODERN) --- */}
       {isAdmin && (
         <div className="relative overflow-hidden bg-linear-to-r from-indigo-600 to-purple-700 p-8 rounded-3xl shadow-xl text-white">
             

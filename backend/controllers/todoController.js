@@ -66,49 +66,56 @@ const createTodo = async (req, res) => {
 // 3. UPDATE TUGAS + SISTEM LEVEL UP  (Gak Berubah)
 // ==========================================
 const updateTodo = async (req, res) => {
-    try {
+     try {
         const { id } = req.params;
         const { task, completed } = req.body; 
-        
+    
         const todo = await Todo.findOne({ 
-            where: { id, userId: req.user.userId } 
+            where: { id: id, userId: (req).user.userId } 
         });
 
         if (!todo) {
             return res.status(404).json({ msg: "Tugas tidak ditemukan atau bukan milik Anda" });
         }
 
-        if (task !== undefined && task.trim() !== "") {
-            todo.task = task;
-        }
-
         let xpGained = 0;
         let newLevel = null;
-
-        if (completed !== undefined && completed === true && todo.completed === false) {
-            const user = await User.findByPk(req.user.userId);
+        if (completed === true && todo.completed === false) {
+            
+            const user = await User.findByPk((req ).user.userId);
+            
             if (user) {
+                //  XP (+10)
                 user.xp = (user.xp || 0) + 10; 
                 xpGained = 10;
                 const calculatedLevel = Math.floor(user.xp / 100) + 1;
+                
+                
                 if (calculatedLevel > (user.level || 1)) {
                     user.level = calculatedLevel;
                     newLevel = calculatedLevel;
                 }
+
+                if (task !== undefined) todo.task = task;
+                if (completed !== undefined) todo.completed = completed;
+                
                 await user.save(); 
             }
         }
 
+        // Update status Todo
         todo.completed = completed;
         await todo.save();
         
+        // Kirim response lengkap (XP & Level buat animasi di frontend)
         res.json({ message: "Status updated", xpGained, newLevel });
 
     } catch (error) {
         console.error("Error Update Todo:", error);
         res.status(500).json({ message: "Gagal update tugas" });
     }
-}
+};
+
 
 // ==========================================
 // 4. HAPUS TUGAS (Gak Berubah)
