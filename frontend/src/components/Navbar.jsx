@@ -28,8 +28,10 @@ const Navbar = () => {
         setUserData({
           name: data.name,
           xp: data.xp || 0,
-          level: data.level || 1
+          level: data.level || 1,
         });
+
+            // console.log("muncul ngga:", data);
 
         // Sync local storage
         localStorage.setItem("name", data.name);
@@ -43,9 +45,9 @@ const Navbar = () => {
     // 1. Jalanin saat pertama kali
     fetchUserData();
     // // 2. Jalanin setiap 5 detik (Biar XP nambah real-time)
-    // const interval = setInterval(fetchUserData, 5000);
+    const interval = setInterval(fetchUserData, 15000);
     // // 3. Bersihkan interval saat pindah halaman
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, []); 
 
   const handleLogout = () => {

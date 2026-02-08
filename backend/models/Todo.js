@@ -9,6 +9,11 @@ const Todo = db.define('Todo', {
     completed: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    isXpGiven: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false, 
+        allowNull: false
     }
 }, {
     freezeTableName: true 
