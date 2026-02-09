@@ -25,7 +25,7 @@ export default function useTodo() {
 
         const userData = await authService.getMe();
 
-        console.log("Data Awal User:", userData); // Debugging.
+        console.log("First Data User:", userData); // Debugging.
 
         setUserStats({
             xp: userData || 0,
@@ -34,7 +34,7 @@ export default function useTodo() {
         });
 
       } catch (err) {
-        console.error("Gagal load data", err);
+        console.error("Failed to load data", err);
         setTasks([]);
       } finally {
         setLoading(false);
@@ -44,7 +44,7 @@ export default function useTodo() {
     initData();
   }, []);
 
-  // 2. FUNGSI ADD
+  // 2. FUNCTION ADD
  const addTask = async (text) => {
     // debugger; // eslint-disable-line no-debugger
     try {
@@ -113,15 +113,21 @@ const toggleTask = async (id, currentStatus) => {
 
   // 4. FUNGSI REMOVE
   const removeTask = async (id) => {
+    const oldTask = [...tasks];
     try {
-        await todoService.delete(id);
         setTasks((prev) => prev.filter((t) => t.id !== id));
+        await todoService.delete(id);
+
     } catch (err) {
         console.error(err);
+
+        setTasks(oldTask);
+
+        alert("Failed to delete the task. Check your Internet connection.")
     }
   };
 
-  // Kembalikan "Alat-alat" ini ke TodoList.jsx
+  // Return these 'Tools' to TodoList.jsx
   return {
     tasks,
     loading,

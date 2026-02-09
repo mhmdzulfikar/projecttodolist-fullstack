@@ -13,8 +13,8 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { snippetService } from "../services/snippetService";
 
 const SnippetLibrary = () => {
-  const [snippets, setSnippets] = useState([]); 
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [snippets, setSnippets] = useState([]); // Data array Empty
+  const [searchTerm, setSearchTerm] = useState(""); // For Typing
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({ title: "", language: "javascript", code: "" });
   const [refreshKey, setRefreshKey] = useState(0);

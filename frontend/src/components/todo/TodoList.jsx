@@ -34,6 +34,7 @@ const TodoList = () => {
     addTask(inputText);
     setInputText("");
   };
+  
 
   return (
     <div className="w-full max-w-3xl mx-auto pb-10">
@@ -120,6 +121,8 @@ const TodoList = () => {
       </div>
 
     </div>
+
+    
   );
 };
 
